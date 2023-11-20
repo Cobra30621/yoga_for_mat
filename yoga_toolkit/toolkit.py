@@ -150,7 +150,7 @@ def treePoseRule(roi, tips, sample_angle_dict, angle_dict, point3d, mat):
             tips = "請將腳踩到瑜珈墊中" if tip_flag else tips
         elif mat.point_count >= 2:
             tips = "請將右腳抬起" if tip_flag else tips
-        if key == 'LEFT_KNEE' or key == 'LEFT_HIP':
+        elif key == 'LEFT_KNEE' or key == 'LEFT_HIP':
             tolerance_val = 8
             min_angle = sample_angle_dict[key]-tolerance_val
             max_angle = sample_angle_dict[key]+tolerance_val
@@ -226,7 +226,7 @@ def treePoseRule(roi, tips, sample_angle_dict, angle_dict, point3d, mat):
         tips = "動作正確"
     return roi, tips
 
-def warriorIIPoseRule(roi, tips, sample_angle_dict, angle_dict, point3d):
+def warriorIIPoseRule(roi, tips, sample_angle_dict, angle_dict, point3d, mat):
     """warriorII pose rule 
         
     Args:
@@ -250,7 +250,11 @@ def warriorIIPoseRule(roi, tips, sample_angle_dict, angle_dict, point3d):
         if tips == "":
             tip_flag = True
             # imagePath = f"{imageFolder}/8.JPG"
-        if key == 'RIGHT_ANKLE': #1
+        if mat.point_count == 0:
+            tips = "請將腳踩到瑜珈墊中" if tip_flag else tips
+        elif mat.point_count < 2:
+            tips = "請將雙腳到瑜珈墊中" if tip_flag else tips
+        elif key == 'RIGHT_ANKLE': #1
             tolerance_val = 5
             min_angle = sample_angle_dict[key]-tolerance_val
             max_angle = sample_angle_dict[key]+tolerance_val
@@ -344,7 +348,7 @@ def warriorIIPoseRule(roi, tips, sample_angle_dict, angle_dict, point3d):
         imagePath = f"{imageFolder}/8.JPG"
     return roi, tips, imagePath
 
-def plankPoseRule(roi, tips, sample_angle_dict, angle_dict, point3d):
+def plankPoseRule(roi, tips, sample_angle_dict, angle_dict, point3d, mat):
     """plank pose rule 
         
     Args:
@@ -364,6 +368,8 @@ def plankPoseRule(roi, tips, sample_angle_dict, angle_dict, point3d):
         if tips == "":
             tip_flag = True
 
+        if mat.point_count == 0:
+            tips = "請進入瑜珈墊中" if tip_flag else tips
         if key == 'NOSE':
             if point3d[AngleNodeDef.NOSE].x > point3d[AngleNodeDef.LEFT_HIP].x and point3d[AngleNodeDef.NOSE].x > point3d[AngleNodeDef.RIGHT_HIP].x:
                 roi['NOSE'] = True
@@ -463,7 +469,7 @@ def plankPoseRule(roi, tips, sample_angle_dict, angle_dict, point3d):
         tips = "動作正確"
     return roi, tips
     
-def reversePlankPoseRule(roi, tips, sample_angle_dict, angle_dict, point3d):
+def reversePlankPoseRule(roi, tips, sample_angle_dict, angle_dict, point3d, mat):
     """reverse plank pose rule 
         
     Args:
@@ -482,6 +488,8 @@ def reversePlankPoseRule(roi, tips, sample_angle_dict, angle_dict, point3d):
         tip_flag = False
         if tips == "":
             tip_flag = True
+        if mat.point_count == 0:
+            tips = "請進入瑜珈墊中" if tip_flag else tips
         if key == 'NOSE':
             node_x,_,_ = getLandmarks(point3d[AngleNodeDef.NOSE])
             left_hip_x,_,_ = getLandmarks(point3d[AngleNodeDef.LEFT_HIP])
@@ -581,7 +589,7 @@ def reversePlankPoseRule(roi, tips, sample_angle_dict, angle_dict, point3d):
         tips = "動作正確"
     return roi, tips
 
-def ChildsPoseRule(roi, tips, sample_angle_dict, angle_dict, point3d):
+def ChildsPoseRule(roi, tips, sample_angle_dict, angle_dict, point3d, mat):
     """child's pose rule 
     Args:
         roi (list): region of interesting joint for child's pose
@@ -599,6 +607,8 @@ def ChildsPoseRule(roi, tips, sample_angle_dict, angle_dict, point3d):
         if tips == "":
             tip_flag = True
         #detect the side for the pose
+        if mat.point_count == 0:
+            tips = "請進入瑜珈墊中" if tip_flag else tips
         if key == 'NOSE':
             node_x,_,_ = getLandmarks(point3d[AngleNodeDef.NOSE])
             left_hip_x,_,_ = getLandmarks(point3d[AngleNodeDef.LEFT_HIP])
@@ -652,7 +662,7 @@ def ChildsPoseRule(roi, tips, sample_angle_dict, angle_dict, point3d):
         tips = "動作正確 ! "
     return roi, tips
 
-def DownwardDogRule(roi, tips, sample_angle_dict, angle_dict, point3d):
+def DownwardDogRule(roi, tips, sample_angle_dict, angle_dict, point3d, mat):
     """Downward dog's pose rule 
     Args:
         roi (list): region of interesting joint for child's pose
@@ -670,6 +680,8 @@ def DownwardDogRule(roi, tips, sample_angle_dict, angle_dict, point3d):
         if tips == "":
             tip_flag = True
         #detect the side for the pose
+        if mat.point_count == 0:
+            tips = "請進入瑜珈墊中" if tip_flag else tips
         if key == 'NOSE':
             node_x,_,_ = getLandmarks(point3d[AngleNodeDef.NOSE])
             left_hip_x,_,_ = getLandmarks(point3d[AngleNodeDef.LEFT_HIP])
@@ -731,7 +743,7 @@ def DownwardDogRule(roi, tips, sample_angle_dict, angle_dict, point3d):
         tips = "動作正確 ! "
     return roi, tips
 
-def LowLungeRule(roi, tips, sample_angle_dict, angle_dict, point3d):
+def LowLungeRule(roi, tips, sample_angle_dict, angle_dict, point3d, mat):
     """Low Lunge pose rule   
     Args:
         roi (list): region of interesting joint for tree pose
@@ -751,6 +763,8 @@ def LowLungeRule(roi, tips, sample_angle_dict, angle_dict, point3d):
         if tips == "":
             tip_flag = True
         #detect the side for the pose
+        if mat.point_count == 0:
+            tips = "請進入瑜珈墊中" if tip_flag else tips
         if key == 'NOSE':
             node_x,_,_ = getLandmarks(point3d[AngleNodeDef.NOSE])
             left_shoulder_x,_,_ = getLandmarks(point3d[AngleNodeDef.LEFT_SHOULDER])
@@ -809,7 +823,7 @@ def LowLungeRule(roi, tips, sample_angle_dict, angle_dict, point3d):
         tips = "動作正確"
     return roi, tips
 
-def SeatedForwardBendRule(roi, tips, sample_angle_dict, angle_dict, point3d):
+def SeatedForwardBendRule(roi, tips, sample_angle_dict, angle_dict, point3d, mat):
     """Seated Forward Bend pose rule   
     Args:
         roi (list): region of interesting joint for tree pose
@@ -828,6 +842,8 @@ def SeatedForwardBendRule(roi, tips, sample_angle_dict, angle_dict, point3d):
         if tips == "":
             tip_flag = True
         #detect the side for the pose
+        if mat.point_count == 0:
+            tips = "請進入瑜珈墊中" if tip_flag else tips
         if key == 'LEFT_FOOT_INDEX':
             node_x,_,_ = getLandmarks(point3d[AngleNodeDef.LEFT_FOOT_INDEX])
             left_shoulder_x,_,_ = getLandmarks(point3d[AngleNodeDef.LEFT_SHOULDER])
@@ -881,7 +897,7 @@ def SeatedForwardBendRule(roi, tips, sample_angle_dict, angle_dict, point3d):
         tips = "動作正確"
     return roi, tips
 
-def BridgeRule(roi, tips, sample_angle_dict, angle_dict, point3d):
+def BridgeRule(roi, tips, sample_angle_dict, angle_dict, point3d, mat):
     """Bridge pose rule   
     Args:
         roi (list): region of interesting joint for tree pose
@@ -900,6 +916,8 @@ def BridgeRule(roi, tips, sample_angle_dict, angle_dict, point3d):
         if tips == "":
             tip_flag = True
         #detect the side for the pose
+        if mat.point_count == 0:
+            tips = "請進入瑜珈墊中" if tip_flag else tips
         if key == 'NOSE':
             node_x,_,_ = getLandmarks(point3d[AngleNodeDef.NOSE])
             left_shoulder_x,_,_ = getLandmarks(point3d[AngleNodeDef.LEFT_SHOULDER])
@@ -953,7 +971,7 @@ def BridgeRule(roi, tips, sample_angle_dict, angle_dict, point3d):
         tips = "動作正確"
     return roi, tips
 
-def PyramidRule(roi, tips, sample_angle_dict, angle_dict, point3d):
+def PyramidRule(roi, tips, sample_angle_dict, angle_dict, point3d, mat):
     """Pyramid pose rule   
     Args:
         roi (list): region of interesting joint for tree pose
@@ -972,6 +990,8 @@ def PyramidRule(roi, tips, sample_angle_dict, angle_dict, point3d):
         if tips == "":
             tip_flag = True
         #detect the side for the pose
+        if mat.point_count == 0:
+            tips = "請進入瑜珈墊中" if tip_flag else tips
         if key == 'NOSE':
             node_x,_,_ = getLandmarks(point3d[AngleNodeDef.NOSE])
             left_shoulder_x,_,_ = getLandmarks(point3d[AngleNodeDef.LEFT_SHOULDER])

@@ -40,6 +40,8 @@ class StartPlay(tk.Frame):
 		""" yoga mat data"""
 		self.yoga_mat_data = mat_data()
 		self.heatmap_frame = None
+		if (not use_mat):
+			self.yoga_mat_data = mat_data(points=[mat_point(400, 600, 100, 100)])
 
 		""" image """
 		self.canvas_img = tk.Canvas(self, width=self.width, height=self.height)
